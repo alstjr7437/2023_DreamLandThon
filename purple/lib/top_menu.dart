@@ -8,11 +8,13 @@ class TopBar extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: Text(
-          'PERPL',
-          style: TextStyle(
-            fontFamily: 'PottaOneRegular',
-            color: Theme.of(context).primaryColor,
+        title: Center(
+          child: Text(
+            'PERPL',
+            style: TextStyle(
+              fontFamily: 'PottaOneRegular',
+              color: Theme.of(context).primaryColor,
+            ),
           ),
         ),
       ),
