@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'dart:developer' as developer;
 import 'loadmapdetail.dart';
+import 'loadmaplist.dart';
 
 var apiKey = dotenv.env['apiKey'];
 var apiUrl = dotenv.env['apiUrl'];
@@ -138,6 +139,49 @@ class ResultPage extends StatelessWidget {
     );
   }
 
+  void showPopup(BuildContext context, String result) {
+    List<String> lines =
+        result.split('\n').where((line) => line.trim().isNotEmpty).toList();
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return Dialog(
+          child: Container(
+            padding: EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'Popup Dialog',
+                  style: TextStyle(
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(height: 16.0),
+                ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: lines.length,
+                  itemBuilder: (context, index) {
+                    return Text(lines[index]);
+                  },
+                ),
+                SizedBox(height: 16.0),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(context); // Close the dialog
+                  },
+                  child: Text('Close'),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     // Split the GPT-3 response into lines
@@ -227,7 +271,8 @@ class ResultPage extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => ResultPage(result, prompt1),
+                              builder: (context) =>
+                                  loadMapList(result, prompt1),
                             ),
                           );
                         },
@@ -273,12 +318,7 @@ class ResultPage extends StatelessWidget {
                       height: 40, // 버튼의 세로 크기를 지정
                       child: ElevatedButton(
                         onPressed: () async {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ResultPage(result, prompt1),
-                            ),
-                          );
+                          showPopup(context, result);
                         },
                         style: ElevatedButton.styleFrom(
                           primary: Color(0xFFBB85FF),
@@ -325,44 +365,6 @@ class ResultPage extends StatelessWidget {
                   ],
                 ),
               ],
-            ),
-
-            Expanded(
-              child: ListView.builder(
-                itemCount: lines.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 4.0),
-                    child: ClipOval(
-                      child: Material(
-                        color: Colors.purple, // Set the button color to purple
-                        child: InkWell(
-                          onTap: () async {
-                            String prom = lines[index];
-                            String result2 = await generateText2(prom, prompt1);
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => LineDetailPage(result2),
-                              ),
-                            );
-                          },
-                          child: Center(
-                            child: Text(
-                              lines[index]
-                                  .toString(), // lines[index]를 정수로 변환하여 표시
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  );
-                },
-              ),
             ),
           ],
         ),
@@ -454,10 +456,6 @@ Future<String> generateText3(String prompt) async {
       'presence_penalty': 0
     }),
   );
-
-  developer.log('log me', name: 'my.app.category');
-
-  developer.log('$prompt', name: 'my.app.category');
 
   Map<String, dynamic> newresponse =
       jsonDecode(utf8.decode(response.bodyBytes));

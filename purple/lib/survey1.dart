@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'dart:developer' as developer;
-import 'bottom_menu.dart';
 import 'loadmap.dart';
 
 var apiKey = dotenv.env['apiKey'];
@@ -355,66 +354,6 @@ Future<String> generateText(String prompt) async {
     body: jsonEncode({
       "model": "text-davinci-003",
       'prompt': "$prompt 이런 나를 위해서 로드맵 순서를 정해서 알려줘. 근데 오타없이 키워드만 간단히.",
-      'max_tokens': 1000,
-      'temperature': 0,
-      'top_p': 1,
-      'frequency_penalty': 0,
-      'presence_penalty': 0
-    }),
-  );
-  developer.log('log me', name: 'my.app.category');
-
-  developer.log('$prompt', name: 'my.app.category');
-
-  Map<String, dynamic> newresponse =
-      jsonDecode(utf8.decode(response.bodyBytes));
-
-  return newresponse['choices'][0]['text'];
-}
-
-Future<String> generateText2(String prompt, String prompt1) async {
-  String prom = "";
-  if (prompt.contains("자격증")) {
-    prom = "$prompt1 직종 관련 한국 자격증을 알려줘.";
-  } else {
-    prom = "$prompt 를 하려는데 알려줘. 근데 오타없이 키워드만 간단히.";
-  }
-  final response = await http.post(
-    Uri.parse(apiUrl!),
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer $apiKey'
-    },
-    body: jsonEncode({
-      "model": "text-davinci-003",
-      'prompt': prom,
-      'max_tokens': 1000,
-      'temperature': 0,
-      'top_p': 1,
-      'frequency_penalty': 0,
-      'presence_penalty': 0
-    }),
-  );
-  developer.log('log me', name: 'my.app.category');
-
-  developer.log('$prompt', name: 'my.app.category');
-
-  Map<String, dynamic> newresponse =
-      jsonDecode(utf8.decode(response.bodyBytes));
-
-  return newresponse['choices'][0]['text'];
-}
-
-Future<String> generateText3(String prompt) async {
-  final response = await http.post(
-    Uri.parse(apiUrl!),
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer $apiKey'
-    },
-    body: jsonEncode({
-      "model": "text-davinci-003",
-      'prompt': "$prompt 를 하려는데 추천 책과 강의 영상을 알려줘! 근데 오타 없이 키워드만 간단히.",
       'max_tokens': 1000,
       'temperature': 0,
       'top_p': 1,
