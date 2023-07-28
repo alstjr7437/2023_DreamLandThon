@@ -391,3 +391,29 @@ Future<String> generateText(String prompt) async {
 
   return newresponse['choices'][0]['text'];
 }
+
+Future<String> generateText2(String prompt) async {
+  final response = await http.post(
+    Uri.parse(apiUrl!),
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $apiKey'
+    },
+    body: jsonEncode({
+      "model": "text-davinci-003",
+      'prompt': "$prompt 이런 나를 위해서 로드맵 순서를 정해서 알려줘. 근데 오타없이 키워드만 간단히.",
+      'max_tokens': 1000,
+      'temperature': 0,
+      'top_p': 1,
+      'frequency_penalty': 0,
+      'presence_penalty': 0
+    }),
+  );
+
+  developer.log('$prompt', name: 'my.app.category');
+
+  Map<String, dynamic> newresponse =
+      jsonDecode(utf8.decode(response.bodyBytes));
+
+  return newresponse['choices'][0]['text'];
+}
