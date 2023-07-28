@@ -12,23 +12,28 @@ class BottomBar extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Icon(
-              Icons.star,
+              // 저장 아이콘
+              Icons.save_alt_rounded,
               size: 25,
             ),
+            // 캘린더
             Icon(
-              Icons.accessible,
+              Icons.calendar_month_rounded,
               size: 25,
             ),
+            // 홈
             Icon(
-              Icons.contact_mail,
+              Icons.home,
               size: 25,
             ),
+            // 후기
             Icon(
-              Icons.contact_mail,
+              Icons.note_add_rounded,
               size: 25,
             ),
+            // 마이페이지
             Icon(
-              Icons.contact_mail,
+              Icons.person,
               size: 25,
             ),
           ],
