@@ -1,8 +1,7 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'survey1.dart';
+import 'package:gpt_app/screens/intro_screen.dart';
+import 'package:get/get.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized(); // 추가
@@ -11,14 +10,16 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       title: 'PERPL',
       theme: ThemeData(
         primaryColor: Color(0xFFBB85FF),
+        fontFamily: "PottaOneRegular",
       ),
-      home: FirstPage(),
+      home: IntroScreen(),
     );
   }
 }
